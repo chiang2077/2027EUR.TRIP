@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>España · 西班牙 16 天雙人行程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+TC:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+:root {
+  --terracotta: #C44518;
+  --terracotta-deep: #8B2D0A;
+  --ochre: #D89B3D;
+  --cream: #F5EBDC;
+  --cream-deep: #EDDFC8;
+  --paper: #FAF4E8;
+  --ink: #2A1810;
+  --ink-soft: #5C443A;
+  --olive: #4A5D32;
+  --azulejo: #1E5A8E;
+  --gold: #B8860B;
+  --shadow: 0 4px 24px rgba(139, 45, 10, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Serif TC', 'Cormorant Garamond', Georgia, serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.7;
+  font-size: 16px;
+  background-image:
+    radial-gradient(ellipse at top left, rgba(216, 155, 61, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(196, 69, 24, 0.05) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+.font-display {
+  font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.font-sans {
+  font-family: 'Inter', 'Noto Serif TC', sans-serif;
+}
+
+/* ================ HERO ================ */
+.hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 8vw 60px;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(245, 235, 220, 0.4) 0%, rgba(237, 223, 200, 0.6) 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(216, 155, 61, 0.15) 0%, transparent 70%);
+  z-index: 0;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: -5%;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196, 69, 24, 0.1) 0%, transparent 70%);
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.hero-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-tag::before, .hero-tag::after {
+  content: '';
+  height: 1px;
+  background: var(--terracotta);
+  flex: 0 0 40px;
+}
+
+.hero-tag::after { display: none; }
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(80px, 16vw, 200px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 32px;
+  font-style: italic;
+}
+
+.hero-title .accent {
+  color: var(--terracotta);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.hero-sub {
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+  font-family: 'Noto Serif TC', serif;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(139, 45, 10, 0.15);
+}
+
+.hero-meta-item {
+  font-family: 'Inter', sans-serif;
+}
+
+.hero-meta-label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.hero-meta-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.hero-meta-value .small {
+  font-size: 14px;
+  color: var(--ink-soft);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+/* ================ NAV ================ */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 244, 232, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(139, 45, 10, 0.12);
+  padding: 14px 8vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--terracotta);
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+
+.nav-links a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.nav-links a:hover { color: var(--terracotta); }
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 1px;
+  background: var(--terracotta);
+  transition: width 0.3s;
+}
+
+.nav-links a:hover::after { width: 100%; }
+
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+}
+
+/* ================ SECTION ================ */
+section {
+  padding: 100px 8vw;
+  max-width: 1300px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.section-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 16px;
+  display: inline-block;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--terracotta);
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 24px;
+  color: var(--ink);
+}
+
+.section-title .italic {
+  font-style: italic;
+  color: var(--terracotta);
+}
+
+.section-intro {
+  font-size: 18px;
+  color: var(--ink-soft);
+  max-width: 720px;
+  margin-bottom: 60px;
+  line-height: 1.8;
+}
+
+/* ================ MAP ================ */
+.map-section {
+  padding: 100px 8vw 60px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.map-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 40px 0 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(139, 45, 10, 0.12);
+}
+
+.map-tab {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid var(--cream-deep);
+  color: var(--ink-soft);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.25s;
+  font-weight: 500;
+}
+
+.map-tab:hover {
+  border-color: var(--terracotta);
+  color: var(--terracotta);
+}
+
+.map-tab.active {
+  background: var(--terracotta);
+  color: white;
+  border-color: var(--terracotta);
+}
+
+.map-container {
+  position: relative;
+  background: white;
+  border: 1px solid var(--cream-deep);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+#trip-map {
+  width: 100%;
+  height: 580px;
+  background: var(--cream);
+}
+
+@media (max-width: 720px) {
+  #trip-map { height: 460px; }
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 32px;
+  padding: 20px 28px;
+  background: var(--paper);
+  border-top: 1px solid var(--cream-deep);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+}
+
+/* Override Leaflet default popup style */
+.leaflet-popup-content-wrapper {
+  border-radius: 4px !important;
+  box-shadow: 0 4px 20px rgba(139, 45, 10, 0.15) !important;
+  background: white;
+}
+
+.leaflet-popup-content {
+  margin: 16px 20px !important;
+  font-family: 'Noto Serif TC', 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: var(--ink) !important;
+}
+
+.leaflet-popup-content .popup-day {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 4px;
+}
+
+.leaflet-popup-content .popup-title {
+  font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.leaflet-popup-content .popup-note {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+
+.leaflet-popup-tip {
+  background: white !important;
+}
+
+.custom-marker {
+  background: transparent;
+  border: none;
+}
+
+.custom-marker-pin {
+  width: 28px;
+  height: 28px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-marker-pin span {
+  transform: rotate(45deg);
+  color: white;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.map-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--cream-deep);
+  margin-top: 32px;
+  border: 1px solid var(--cream-deep);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.map-summary-item {
+  background: white;
+  padding: 24px 28px;
+}
+
+.map-summary-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.map-summary-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--ink);
+  font-style: italic;
+}
+
+.map-summary-value .accent {
+  color: var(--terracotta);
+  font-style: normal;
+}
+
+/* ================ FLIGHT TIMELINE ================ */
+.flight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.flight-card {
+  background: white;
+  border: 1px solid var(--cream-deep);
+  border-radius: 4px;
+  padding: 32px 28px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.flight-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(139, 45, 10, 0.12);
+}
+
+.flight-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--terracotta);
+}
+
+.flight-day {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 12px;
+}
+
+.flight-route {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.flight-arrow {
+  display: inline-block;
+  margin: 0 8px;
+  color: var(--ochre);
+}
+
+.flight-info {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-top: 8px;
+}
+
+.flight-info strong { color: var(--ink); font-weight: 500; }
+
+/* ================ DAY CARDS ================ */
+.itinerary-grid {
+  display: grid;
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.day-card {
+  background: white;
+  border-radius: 4px;
+  padding: 40px 44px;
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 40px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.day-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(139, 45, 10, 0.1);
+}
+
+.day-card.bcn { border-left: 4px solid var(--terracotta); }
+.day-card.mad { border-left: 4px solid var(--ochre); }
+.day-card.ams { border-left: 4px solid var(--olive); }
+.day-card.transit { border-left: 4px solid var(--ink-soft); }
+.day-card.michelin { border-left: 4px solid var(--gold); background: linear-gradient(135deg, white 0%, #FDF8E8 100%); }
+
+.day-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+
+.day-num-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+
+.day-num-big {
+  font-size: 80px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--terracotta);
+  margin-bottom: 8px;
+}
+
+.day-week {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.day-content h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.day-location-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  background: var(--cream);
+  color: var(--ink-soft);
+  padding: 4px 12px;
+  border-radius: 2px;
+}
+
+.michelin-badge {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  background: var(--gold);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+
+.day-schedule {
+  margin-top: 20px;
+}
+
+.schedule-item {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px dashed rgba(139, 45, 10, 0.12);
+}
+
+.schedule-item:last-child { border-bottom: none; }
+
+.schedule-time {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 500;
+  padding-top: 2px;
+}
+
+.schedule-detail {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+.schedule-detail strong {
+  color: var(--terracotta-deep);
+  font-weight: 500;
+}
+
+.schedule-note {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+@media (max-width: 720px) {
+  .day-card { grid-template-columns: 1fr; gap: 16px; padding: 28px 24px; }
+  .day-num-big { font-size: 56px; }
+  .schedule-item { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* ================ BUDGET ================ */
+.budget-section {
+  background:
+    linear-gradient(180deg, var(--cream) 0%, var(--paper) 100%);
+  margin: 100px 0 0;
+  padding: 100px 8vw;
+}
+
+.budget-section .inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.budget-headline {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: 60px;
+}
+
+.budget-total-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(80px, 12vw, 140px);
+  font-weight: 500;
+  line-height: 0.9;
+  color: var(--terracotta);
+  font-style: italic;
+}
+
+.budget-total-num .unit {
+  font-size: 0.4em;
+  color: var(--ink);
+  margin-left: 8px;
+  font-style: normal;
+}
+
+.budget-total-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.budget-per-person {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  color: var(--ink);
+  font-style: italic;
+}
+
+.budget-per-person strong {
+  color: var(--terracotta);
+  font-weight: 500;
+  font-style: normal;
+}
+
+@media (max-width: 720px) {
+  .budget-headline { grid-template-columns: 1fr; gap: 24px; }
+}
+
+.budget-table {
+  background: white;
+  border-radius: 4px;
+  padding: 16px 0;
+  box-shadow: var(--shadow);
+}
+
+.budget-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 100px;
+  gap: 24px;
+  align-items: center;
+  padding: 22px 32px;
+  border-bottom: 1px solid var(--cream-deep);
+}
+
+.budget-row:last-child { border-bottom: none; }
+
+.budget-row.total {
+  background: var(--cream);
+  border-radius: 0 0 4px 4px;
+}
+
+.budget-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.budget-label .desc {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+
+.budget-bar-wrap {
+  height: 6px;
+  background: var(--cream-deep);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.budget-bar {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--terracotta) 0%, var(--ochre) 100%);
+  animation: barGrow 1.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+@keyframes barGrow {
+  from { width: 0; }
+}
+
+.budget-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--terracotta-deep);
+  text-align: right;
+}
+
+.budget-row.total .budget-amount {
+  font-size: 32px;
+  color: var(--terracotta);
+  font-weight: 600;
+}
+
+.budget-row.total .budget-label {
+  font-size: 24px;
+  color: var(--ink);
+  font-style: italic;
+}
+
+@media (max-width: 720px) {
+  .budget-row { grid-template-columns: 1fr; gap: 8px; padding: 18px 20px; }
+  .budget-amount { text-align: left; }
+}
+
+/* ================ HIGHLIGHTS ================ */
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin-top: 50px;
+}
+
+.highlight-card {
+  border: 1px solid var(--cream-deep);
+  padding: 40px 32px;
+  border-radius: 4px;
+  background: white;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 64px;
+  color: var(--ochre);
+  opacity: 0.3;
+  position: absolute;
+  top: 12px;
+  right: 24px;
+  line-height: 1;
+}
+
+.highlight-card h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.highlight-card p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  position: relative;
+}
+
+/* ================ NOTES ================ */
+.notes-section {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 80px 8vw;
+  margin-top: 80px;
+}
+
+.notes-section .inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.notes-section .section-tag { color: var(--ochre); border-color: var(--ochre); }
+.notes-section .section-title { color: var(--cream); }
+
+.notes-list {
+  display: grid;
+  gap: 28px;
+  margin-top: 40px;
+}
+
+.note-item {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(245, 235, 220, 0.15);
+}
+
+.note-item:last-child { border-bottom: none; }
+
+.note-icon {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-style: italic;
+  color: var(--ochre);
+  line-height: 1;
+}
+
+.note-item h5 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--cream);
+}
+
+.note-item p {
+  font-size: 15px;
+  color: rgba(245, 235, 220, 0.75);
+  line-height: 1.7;
+}
+
+/* ================ FOOTER ================ */
+footer {
+  background: var(--ink);
+  color: rgba(245, 235, 220, 0.5);
+  padding: 40px 8vw;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  border-top: 1px solid rgba(245, 235, 220, 0.1);
+}
+
+footer .gracias {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-style: italic;
+  color: var(--ochre);
+  letter-spacing: 0;
+  margin-bottom: 16px;
+}
+
+/* Subtle entrance animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+.delay-3 { animation-delay: 0.45s; }
+.delay-4 { animation-delay: 0.6s; }
+
+</style>
+</head>
+<body>
+
+<nav class="nav-bar">
+  <div class="nav-logo">España · Iberia</div>
+  <div class="nav-links">
+    <a href="#map">地圖</a>
+    <a href="#flights">航班</a>
+    <a href="#itinerary">行程</a>
+    <a href="#budget">預算</a>
+    <a href="#notes">備註</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag fade-in">A 16-day journey · 2026</div>
+    <h1 class="hero-title fade-in delay-1">
+      Hola,<br>
+      <span class="accent">España</span>
+    </h1>
+    <p class="hero-sub fade-in delay-2">巴塞隆納 · 馬德里 · 阿姆斯特丹轉機</p>
+    <p class="hero-sub fade-in delay-2" style="font-style: italic; color: var(--terracotta);">高第、達利、普拉多，與兩顆米其林星</p>
+
+    <div class="hero-meta fade-in delay-3">
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Duration</div>
+        <div class="hero-meta-value">16 <span class="small">days</span></div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Travelers</div>
+        <div class="hero-meta-value">2 <span class="small">persons</span></div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Cities</div>
+        <div class="hero-meta-value">3 <span class="small">BCN · MAD · AMS</span></div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Michelin</div>
+        <div class="hero-meta-value">2 <span class="small">★ stars</span></div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Budget</div>
+        <div class="hero-meta-value">30.7 <span class="small">萬 TWD</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="map-section" id="map">
+  <div class="section-tag">Mapa · Map</div>
+  <h2 class="section-title">行程<span class="italic">地圖</span></h2>
+  <p class="section-intro">
+    西班牙東進西出，從巴塞隆納開始，沿 AVE 高鐵向馬德里推進，再經阿姆斯特丹中轉返台。地圖標示所有住宿、景點、餐廳與三段近郊日程。
+  </p>
+
+  <div class="map-tabs">
+    <button class="map-tab active" data-region="all">全程概覽</button>
+    <button class="map-tab" data-region="bcn">巴塞隆納</button>
+    <button class="map-tab" data-region="mad">馬德里</button>
+    <button class="map-tab" data-region="ams">阿姆斯特丹</button>
+  </div>
+
+  <div class="map-container">
+    <div id="trip-map"></div>
+    <div class="map-legend">
+      <span><span class="legend-dot" style="background: #C44518;"></span>巴塞隆納景點</span>
+      <span><span class="legend-dot" style="background: #D89B3D;"></span>馬德里景點</span>
+      <span><span class="legend-dot" style="background: #4A5D32;"></span>阿姆斯特丹</span>
+      <span><span class="legend-dot" style="background: #B8860B;"></span>米其林餐廳</span>
+      <span><span class="legend-dot" style="background: #1E5A8E;"></span>近郊日程</span>
+    </div>
+  </div>
+
+  <div class="map-summary">
+    <div class="map-summary-item">
+      <div class="map-summary-label">Cities</div>
+      <div class="map-summary-value"><span class="accent">3</span> 城市</div>
+    </div>
+    <div class="map-summary-item">
+      <div class="map-summary-label">Day Trips</div>
+      <div class="map-summary-value"><span class="accent">3</span> 近郊</div>
+    </div>
+    <div class="map-summary-item">
+      <div class="map-summary-label">Highlights</div>
+      <div class="map-summary-value"><span class="accent">15</span> 景點</div>
+    </div>
+    <div class="map-summary-item">
+      <div class="map-summary-label">Distance</div>
+      <div class="map-summary-value"><span class="accent">~620</span> <span style="font-size: 14px; font-style: normal; font-family: 'Inter', sans-serif;">km BCN→MAD</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="flights">
+  <div class="section-tag">Vuelos · Flights</div>
+  <h2 class="section-title">航班<span class="italic">節點</span></h2>
+  <p class="section-intro">
+    去程經阿姆斯特丹轉機，回程 Day 15 上午 11:00 從 AMS 直飛返台。Day 13 晚上入住史基浦機場喜來登，免去清晨從市區拖行李的風險。
+  </p>
+
+  <div class="flight-grid">
+    <div class="flight-card">
+      <div class="flight-day">Day 0 · 週五 22:50</div>
+      <div class="flight-route">TPE <span class="flight-arrow">→</span> AMS</div>
+      <div class="flight-info">
+        <strong>CI73</strong> 華航 A350 直飛<br>
+        飛行時間 14 小時 50 分
+      </div>
+    </div>
+
+    <div class="flight-card">
+      <div class="flight-day">Day 1 · 週六 10:20</div>
+      <div class="flight-route">AMS <span class="flight-arrow">→</span> BCN</div>
+      <div class="flight-info">
+        <strong>KLM KL1513</strong> 接駁<br>
+        12:30 抵達巴塞隆納<br>
+        轉機緩衝 2 小時 40 分
+      </div>
+    </div>
+
+    <div class="flight-card">
+      <div class="flight-day">Day 8 · 週六 12:00</div>
+      <div class="flight-route">BCN <span class="flight-arrow">→</span> MAD</div>
+      <div class="flight-info">
+        <strong>AVE 高鐵</strong> Sants → Atocha<br>
+        14:30 抵達馬德里<br>
+        車程約 2.5 小時
+      </div>
+    </div>
+
+    <div class="flight-card">
+      <div class="flight-day">Day 13 · 週四 14:00</div>
+      <div class="flight-route">MAD <span class="flight-arrow">→</span> AMS</div>
+      <div class="flight-info">
+        <strong>KLM</strong> 直飛阿姆斯特丹<br>
+        傍晚抵達後直接機場飯店入住<br>
+        Day 13 與 Day 14 雙夜留宿機場
+      </div>
+    </div>
+
+    <div class="flight-card" style="grid-column: span 2;">
+      <div class="flight-day">Day 15 · 週六 11:00</div>
+      <div class="flight-route">AMS <span class="flight-arrow">→</span> TPE</div>
+      <div class="flight-info">
+        <strong>CI74</strong> 華航直飛 · 飛行時間約 12 小時 48 分<br>
+        Day 16 週日清晨 05:50 抵達桃園機場，週日整天可充分休息調時差
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="itinerary">
+  <div class="section-tag">Itinerario · Day by Day</div>
+  <h2 class="section-title">逐日<span class="italic">行程</span></h2>
+  <p class="section-intro">
+    巴塞隆納 7 日聚焦高第與近郊；馬德里 5 日結合普拉多與塞哥維亞日；阿姆斯特丹利用機場飯店爭取一日市區深度遊。
+  </p>
+
+  <div class="itinerary-grid">
+
+    <article class="day-card transit">
+      <div class="day-number">
+        <div class="day-num-label">Day 1</div>
+        <div class="day-num-big">01</div>
+        <div class="day-week">Sat · 週六</div>
+      </div>
+      <div class="day-content">
+        <h3>抵達巴塞隆納 <span class="day-location-tag">BCN</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">07:40</div>
+            <div class="schedule-detail">抵達 Schiphol 機場，完成證照查驗與申根區入境</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">12:30</div>
+            <div class="schedule-detail">抵達巴塞隆納，<strong>H10 Casa Mimosa</strong> 或同級 4 星精品飯店 check-in</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">傍晚</div>
+            <div class="schedule-detail">格拉西亞大道散步，晚餐於 <strong>Cervecería Catalana</strong> 享用 Tapas</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card bcn">
+      <div class="day-number">
+        <div class="day-num-label">Day 2</div>
+        <div class="day-num-big">02</div>
+        <div class="day-week">Sun · 週日</div>
+      </div>
+      <div class="day-content">
+        <h3>聖家堂與擴展區 <span class="day-location-tag">BCN</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">上午</div>
+            <div class="schedule-detail">
+              <strong>聖家堂</strong>入場（含登塔、語音導覽）
+              <span class="schedule-note">建議提前 1 個月線上預訂以避免售完</span>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">下午</div>
+            <div class="schedule-detail">
+              <strong>聖十字聖保羅醫院</strong>，加泰隆尼亞現代主義建築群
+              <span class="schedule-note">距聖家堂步行約 800 公尺</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card bcn">
+      <div class="day-number">
+        <div class="day-num-label">Day 3</div>
+        <div class="day-num-big">03</div>
+        <div class="day-week">Mon · 週一</div>
+      </div>
+      <div class="day-content">
+        <h3>高第精選與舊城區 <span class="day-location-tag">BCN</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">上午</div>
+            <div class="schedule-detail">
+              <strong>巴特由之家</strong>，建議購 Gold Tour 進入完整空間
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">下午</div>
+            <div class="schedule-detail">哥德區漫步、博蓋利亞市場</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">晚餐</div>
+            <div class="schedule-detail"><strong>Els 4 Gats 四隻貓</strong>，畢卡索常客的百年咖啡館</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card michelin">
+      <div class="day-number">
+        <div class="day-num-label">Day 4</div>
+        <div class="day-num-big">04</div>
+        <div class="day-week">Tue · 週二</div>
+      </div>
+      <div class="day-content">
+        <h3>奎爾公園與米其林午餐 <span class="day-location-tag">BCN</span> <span class="michelin-badge">★ Michelin</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">08:00</div>
+            <div class="schedule-detail">
+              <strong>奎爾公園</strong>首場入場
+              <span class="schedule-note">避開人潮與午後高溫</span>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">13:30</div>
+            <div class="schedule-detail">
+              <strong>Caelis ★</strong> 米其林一星午餐
+              <span class="schedule-note">Earth and Sea 套餐 €125 / 人，建議搭配酒水 €85；週日週一公休</span>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">下午</div>
+            <div class="schedule-detail"><strong>加泰隆尼亞音樂宮</strong>，世界遺產彩繪玻璃音樂廳</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card bcn">
+      <div class="day-number">
+        <div class="day-num-label">Day 5</div>
+        <div class="day-num-big">05</div>
+        <div class="day-week">Wed · 週三</div>
+      </div>
+      <div class="day-content">
+        <h3>巴塞隆納購物日 <span class="day-location-tag">BCN</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">全日</div>
+            <div class="schedule-detail">格拉西亞大道精品街、<strong>El Corte Inglés 英國宮百貨</strong></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card bcn">
+      <div class="day-number">
+        <div class="day-num-label">Day 6</div>
+        <div class="day-num-big">06</div>
+        <div class="day-week">Thu · 週四</div>
+      </div>
+      <div class="day-content">
+        <h3>近郊：菲格拉斯 <span class="day-location-tag">DAY TRIP</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">上午</div>
+            <div class="schedule-detail">
+              AVE 高鐵至 Figueres（55 分鐘），<strong>達利劇場博物館</strong>
+              <span class="schedule-note">達利親自設計建築與展件配置；週一公休務必避開</span>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">傍晚</div>
+            <div class="schedule-detail">返回巴塞隆納</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card bcn">
+      <div class="day-number">
+        <div class="day-num-label">Day 7</div>
+        <div class="day-num-big">07</div>
+        <div class="day-week">Fri · 週五</div>
+      </div>
+      <div class="day-content">
+        <h3>近郊：蒙特塞拉特 <span class="day-location-tag">DAY TRIP</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">上午</div>
+            <div class="schedule-detail">
+              FGC 火車前往蒙特塞拉特山，<strong>本篤會修道院</strong>與黑面聖母像
+              <span class="schedule-note">建議搭組合票（火車＋纜車）；13:00 男童合唱團短演出值得停留</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card transit">
+      <div class="day-number">
+        <div class="day-num-label">Day 8</div>
+        <div class="day-num-big">08</div>
+        <div class="day-week">Sat · 週六</div>
+      </div>
+      <div class="day-content">
+        <h3>BCN → MAD 移動日 <span class="day-location-tag">移動</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">12:00</div>
+            <div class="schedule-detail">Sants 車站搭 <strong>AVE 高鐵</strong></div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">14:30</div>
+            <div class="schedule-detail">抵達馬德里 Atocha，入住 <strong>Hotel Wellington</strong> 或 Salamanca 區同級飯店</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">傍晚</div>
+            <div class="schedule-detail">馬約爾廣場散步</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">晚餐</div>
+            <div class="schedule-detail">
+              <strong>Sobrino de Botín</strong> 烤乳豬
+              <span class="schedule-note">金氏世界紀錄認證最古老餐廳（1725 年），建議提前預訂或開門前 20 分鐘現場排候補</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card mad">
+      <div class="day-number">
+        <div class="day-num-label">Day 9</div>
+        <div class="day-num-big">09</div>
+        <div class="day-week">Sun · 週日</div>
+      </div>
+      <div class="day-content">
+        <h3>普拉多博物館 <span class="day-location-tag">MAD</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">10:00</div>
+            <div class="schedule-detail">
+              <strong>普拉多博物館</strong>，委拉斯奎茲、哥雅、波希為必看重點
+              <span class="schedule-note">成人票 €15；週日 17:00 後免費入場（人潮較多）</span>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">下午</div>
+            <div class="schedule-detail">雷蒂羅公園、水晶宮散步</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card mad">
+      <div class="day-number">
+        <div class="day-num-label">Day 10</div>
+        <div class="day-num-big">10</div>
+        <div class="day-week">Mon · 週一</div>
+      </div>
+      <div class="day-content">
+        <h3>皇家氣派 <span class="day-location-tag">MAD</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">上午</div>
+            <div class="schedule-detail">
+              <strong>馬德里皇宮</strong>，西歐最大皇宮（3000+ 房間）
+              <span class="schedule-note">建議線上購票避免長隊</span>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">下午</div>
+            <div class="schedule-detail">聖米格爾市場、Almudena 主教座堂、皇家劇院周邊</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">晚餐</div>
+            <div class="schedule-detail">於 Salamanca 區或太陽門附近自由用餐</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card mad">
+      <div class="day-number">
+        <div class="day-num-label">Day 11</div>
+        <div class="day-num-big">11</div>
+        <div class="day-week">Tue · 週二</div>
+      </div>
+      <div class="day-content">
+        <h3>近郊：塞哥維亞 <span class="day-location-tag">DAY TRIP</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">上午</div>
+            <div class="schedule-detail">
+              AVE 高鐵 30 分鐘抵達，<strong>羅馬水道橋</strong>
+              <span class="schedule-note">西元 1 世紀工程，無泥灰僅靠石塊精準切割支撐 2000 年</span>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">下午</div>
+            <div class="schedule-detail"><strong>塞哥維亞城堡（白雪公主城堡原型）</strong></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card michelin">
+      <div class="day-number">
+        <div class="day-num-label">Day 12</div>
+        <div class="day-num-big">12</div>
+        <div class="day-week">Wed · 週三</div>
+      </div>
+      <div class="day-content">
+        <h3>藝術購物與米其林晚餐 <span class="day-location-tag">MAD</span> <span class="michelin-badge">★ Michelin</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">上午</div>
+            <div class="schedule-detail">
+              <strong>索菲亞王后藝術中心</strong>，畢卡索《格爾尼卡》
+              <span class="schedule-note">週二公休故安排於週三</span>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">下午</div>
+            <div class="schedule-detail">Salamanca 區精品街購物</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">晚餐</div>
+            <div class="schedule-detail">
+              <strong>A'Barra ★</strong> 米其林一星
+              <span class="schedule-note">圍繞吧台體驗為招牌；伊比利豬威靈頓為招牌菜；週日週一公休</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card transit">
+      <div class="day-number">
+        <div class="day-num-label">Day 13</div>
+        <div class="day-num-big">13</div>
+        <div class="day-week">Thu · 週四</div>
+      </div>
+      <div class="day-content">
+        <h3>MAD → AMS 移動日 <span class="day-location-tag">移動</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">14:00</div>
+            <div class="schedule-detail">KLM 直飛 MAD → AMS</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">傍晚</div>
+            <div class="schedule-detail">
+              抵達阿姆斯特丹，直接於航廈辦理 <strong>Sheraton Amsterdam Airport</strong> 入住
+              <span class="schedule-note">飯店直通航廈與機場火車站</span>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">晚上</div>
+            <div class="schedule-detail">搭火車 15 分鐘進阿姆斯特丹市區晚餐</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card ams">
+      <div class="day-number">
+        <div class="day-num-label">Day 14</div>
+        <div class="day-num-big">14</div>
+        <div class="day-week">Fri · 週五</div>
+      </div>
+      <div class="day-content">
+        <h3>阿姆斯特丹一日遊 <span class="day-location-tag">AMS</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">全日</div>
+            <div class="schedule-detail">行李留於機場飯店，輕裝進市區</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">09:00</div>
+            <div class="schedule-detail">
+              <strong>梵谷美術館</strong>首場入場
+              <span class="schedule-note">需提前線上預訂；建議加購 €3.75 語音導覽；《星夜》不在此館</span>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">下午</div>
+            <div class="schedule-detail">運河區散步、九小街（De 9 Straatjes）購物</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">傍晚</div>
+            <div class="schedule-detail">搭火車返回機場飯店休息，整理全部行李</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card transit">
+      <div class="day-number">
+        <div class="day-num-label">Day 15</div>
+        <div class="day-num-big">15</div>
+        <div class="day-week">Sat · 週六</div>
+      </div>
+      <div class="day-content">
+        <h3>返台 · CI74 輕鬆報到 <span class="day-location-tag">RETURN</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">08:30</div>
+            <div class="schedule-detail">起床，步行前往華航櫃檯辦理退稅與報到</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">11:00</div>
+            <div class="schedule-detail"><strong>CI74</strong> 起飛 AMS → TPE，直飛約 12 小時 48 分</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="day-card transit">
+      <div class="day-number">
+        <div class="day-num-label">Day 16</div>
+        <div class="day-num-big">16</div>
+        <div class="day-week">Sun · 週日</div>
+      </div>
+      <div class="day-content">
+        <h3>抵台 <span class="day-location-tag">TPE</span></h3>
+        <div class="day-schedule">
+          <div class="schedule-item">
+            <div class="schedule-time">05:50</div>
+            <div class="schedule-detail">抵達桃園機場，週日整天可充分休息調時差，以應對隔日辦公</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section class="budget-section" id="budget">
+  <div class="inner">
+    <div class="section-tag">Presupuesto · Budget</div>
+    <h2 class="section-title">雙人<span class="italic">預算</span></h2>
+
+    <div class="budget-headline">
+      <div>
+        <div class="budget-total-num">30.7<span class="unit">萬</span></div>
+        <div class="budget-total-label" style="margin-top: 12px;">新台幣總計（雙人）</div>
+      </div>
+      <div style="text-align: right;">
+        <div class="budget-total-label">人均</div>
+        <div class="budget-per-person"><strong>15.4 萬</strong> TWD</div>
+        <div style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--ink-soft); margin-top: 8px;">
+          不含個人精品購物
+        </div>
+      </div>
+    </div>
+
+    <div class="budget-table">
+      <div class="budget-row">
+        <div class="budget-label">住宿費用<span class="desc">14 晚 · 含 AMS 機場喜來登</span></div>
+        <div class="budget-bar-wrap"><div class="budget-bar" style="width: 100%;"></div></div>
+        <div class="budget-amount">10.0 萬</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">國際機票<span class="desc">TPE-AMS 來回經濟艙</span></div>
+        <div class="budget-bar-wrap"><div class="budget-bar" style="width: 80%; animation-delay: 0.1s;"></div></div>
+        <div class="budget-amount">8.0 萬</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">日常餐飲<span class="desc">14 天每日約 €105 · 含 7% 緩衝</span></div>
+        <div class="budget-bar-wrap"><div class="budget-bar" style="width: 52%; animation-delay: 0.2s;"></div></div>
+        <div class="budget-amount">5.2 萬</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">米其林專案<span class="desc">Caelis ★ ＋ A'Barra ★ 含酒水</span></div>
+        <div class="budget-bar-wrap"><div class="budget-bar" style="width: 29%; animation-delay: 0.3s;"></div></div>
+        <div class="budget-amount">2.9 萬</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">景點門票<span class="desc">聖家堂、奎爾、普拉多、梵谷、達利</span></div>
+        <div class="budget-bar-wrap"><div class="budget-bar" style="width: 24%; animation-delay: 0.4s;"></div></div>
+        <div class="budget-amount">2.4 萬</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">歐陸機票<span class="desc">AMS-BCN、MAD-AMS 兩段</span></div>
+        <div class="budget-bar-wrap"><div class="budget-bar" style="width: 13%; animation-delay: 0.5s;"></div></div>
+        <div class="budget-amount">1.3 萬</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">城際交通<span class="desc">AVE 高鐵與近郊火車</span></div>
+        <div class="budget-bar-wrap"><div class="budget-bar" style="width: 12%; animation-delay: 0.6s;"></div></div>
+        <div class="budget-amount">1.2 萬</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">當地交通<span class="desc">地鐵、機場火車、必要計程車</span></div>
+        <div class="budget-bar-wrap"><div class="budget-bar" style="width: 10%; animation-delay: 0.7s;"></div></div>
+        <div class="budget-amount">1.0 萬</div>
+      </div>
+      <div class="budget-row total">
+        <div class="budget-label">Total · 總計</div>
+        <div></div>
+        <div class="budget-amount">30.7 萬</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-tag">Highlights · 亮點</div>
+  <h2 class="section-title">行程<span class="italic">亮點</span></h2>
+  <p class="section-intro">
+    每個城市選定一個核心軸線：巴塞隆納由高第串起、馬德里由皇家與藝術交織、阿姆斯特丹則是後印象派的回響。
+  </p>
+
+  <div class="highlights-grid">
+    <div class="highlight-card">
+      <div class="highlight-num">01</div>
+      <h4>Antoni Gaudí</h4>
+      <p>聖家堂、巴特由之家、奎爾公園——三件作品涵蓋高第從擴展區到山丘的設計演變，分日造訪以給予每件作品完整的觀賞時間。</p>
+    </div>
+
+    <div class="highlight-card">
+      <div class="highlight-num">02</div>
+      <h4>Salvador Dalí</h4>
+      <p>菲格拉斯的劇場博物館是達利親自設計的「最後的超現實主義作品」。從巴塞隆納搭 AVE 55 分鐘可達，當日往返。</p>
+    </div>
+
+    <div class="highlight-card">
+      <div class="highlight-num">03</div>
+      <h4>Three Masters</h4>
+      <p>普拉多的委拉斯奎茲、索菲亞王后的畢卡索《格爾尼卡》、梵谷美術館的《向日葵》與《麥田》——三館貫穿一條歐洲現代藝術主線。</p>
+    </div>
+
+    <div class="highlight-card">
+      <div class="highlight-num">04</div>
+      <h4>Two Stars</h4>
+      <p>巴塞隆納 Caelis ★ 加泰隆尼亞現代料理、馬德里 A'Barra ★ 圍繞吧台體驗——兩星雖非三星規格，但在訂位難度與體驗深度間取得平衡。</p>
+    </div>
+
+    <div class="highlight-card">
+      <div class="highlight-num">05</div>
+      <h4>Day Trips</h4>
+      <p>菲格拉斯（達利）、蒙特塞拉特（黑面聖母）、塞哥維亞（羅馬水道橋）——三個近郊日程分別錨定超現實、宗教、古文明三條線索。</p>
+    </div>
+
+    <div class="highlight-card">
+      <div class="highlight-num">06</div>
+      <h4>Smooth Return</h4>
+      <p>Day 13 提早飛抵 AMS 入住機場喜來登，Day 14 輕裝進市區，Day 15 步行 5 分鐘至華航櫃檯——徹底免除清晨拖行李趕車的壓力。</p>
+    </div>
+  </div>
+</section>
+
+<section class="notes-section" id="notes">
+  <div class="inner">
+    <div class="section-tag">Notas · 備註</div>
+    <h2 class="section-title">關鍵<span class="italic">提醒</span></h2>
+
+    <div class="notes-list">
+      <div class="note-item">
+        <div class="note-icon">i</div>
+        <div>
+          <h5>米其林餐廳公休日</h5>
+          <p>Caelis 與 A'Barra 皆為週日週一公休。已將 Caelis 安排於 Day 4（週二）、A'Barra 安排於 Day 12（週三），避開公休日。建議行前 2 個月線上訂位。</p>
+        </div>
+      </div>
+
+      <div class="note-item">
+        <div class="note-icon">ii</div>
+        <div>
+          <h5>達利博物館週一公休</h5>
+          <p>11 月至 2 月公休範圍可能擴大。Day 6 為週四不影響本行程，但若調整 Day 5 與 Day 6 順序需重新確認。</p>
+        </div>
+      </div>
+
+      <div class="note-item">
+        <div class="note-icon">iii</div>
+        <div>
+          <h5>必須提前線上預訂的景點</h5>
+          <p>聖家堂（含登塔）、奎爾公園、巴特由之家、梵谷美術館——旺季常於 1–2 週前售完。普拉多與索菲亞王后建議線上購票避免長隊。</p>
+        </div>
+      </div>
+
+      <div class="note-item">
+        <div class="note-icon">iv</div>
+        <div>
+          <h5>預算彈性</h5>
+          <p>日常餐飲已加入 7% 緩衝（每日 €100 → €105 預估）；米其林預算依實際 €420/雙人/單餐 修正為 2.9 萬。若加葡萄酒搭配可能再追加 5–8%。</p>
+        </div>
+      </div>
+
+      <div class="note-item">
+        <div class="note-icon">v</div>
+        <div>
+          <h5>西班牙商店週日多休</h5>
+          <p>Day 5（週三）安排為購物日為最佳時機。週日大型百貨多休，僅觀光區商店與餐廳營業。Day 9（週日）為普拉多日不受影響。</p>
+        </div>
+      </div>
+
+      <div class="note-item">
+        <div class="note-icon">vi</div>
+        <div>
+          <h5>申根區轉機</h5>
+          <p>Day 1 於 AMS 完成證照查驗即進入申根區，後續 BCN 與 MAD 皆無需再次入境查驗。Day 13 由 MAD 飛 AMS 為申根內航班。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="gracias">¡Buen viaje!</div>
+  <div>16 days · 2 persons · 3 cities · 2026</div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+// === Trip locations data ===
+const locations = [
+  // 巴塞隆納
+  { day: 'Day 2', name: '聖家堂 Sagrada Família', note: '上午首場入場，建議提前 1 個月線上預訂', lat: 41.4036299, lng: 2.1743558, region: 'bcn', color: '#C44518' },
+  { day: 'Day 2', name: '聖十字聖保羅醫院', note: '加泰隆尼亞現代主義建築群', lat: 41.4155025, lng: 2.1747257, region: 'bcn', color: '#C44518' },
+  { day: 'Day 3', name: '巴特由之家 Casa Batlló', note: '高第傑作，建議購 Gold Tour', lat: 41.3917, lng: 2.164918, region: 'bcn', color: '#C44518' },
+  { day: 'Day 4', name: '奎爾公園 Park Güell', note: '08:00 首場入場避開人潮', lat: 41.4144948, lng: 2.1526945, region: 'bcn', color: '#C44518' },
+  { day: 'Day 4', name: 'Caelis ★ 米其林一星', note: '13:30 午餐，Earth and Sea €125/人', lat: 41.3870395, lng: 2.1742657, region: 'bcn', color: '#B8860B', star: true },
+  { day: 'Day 4', name: '加泰隆尼亞音樂宮', note: '世界遺產彩繪玻璃音樂廳', lat: 41.3875752, lng: 2.1753128, region: 'bcn', color: '#C44518' },
+  { day: 'Day 6', name: '達利劇場博物館', note: 'AVE 55 分鐘至 Figueres，週一公休', lat: 42.2679879, lng: 2.9596627, region: 'bcn-trip', color: '#1E5A8E' },
+  { day: 'Day 7', name: '蒙特塞拉特修道院', note: 'FGC 火車前往，13:00 男童合唱團', lat: 41.5933378, lng: 1.8376246, region: 'bcn-trip', color: '#1E5A8E' },
+
+  // 馬德里
+  { day: 'Day 8', name: '馬約爾廣場 Plaza Mayor', note: '17 世紀腓力三世時期所建', lat: 40.415511, lng: -3.7074009, region: 'mad', color: '#D89B3D' },
+  { day: 'Day 8', name: 'Sobrino de Botín', note: '金氏世界紀錄最古老餐廳（1725）', lat: 40.4141933, lng: -3.7079761, region: 'mad', color: '#D89B3D' },
+  { day: 'Day 9', name: '普拉多博物館', note: '委拉斯奎茲、哥雅、波希為必看', lat: 40.4137818, lng: -3.6921271, region: 'mad', color: '#D89B3D' },
+  { day: 'Day 10', name: '馬德里皇宮', note: '西歐最大皇宮（3000+ 房間）', lat: 40.417955, lng: -3.714312, region: 'mad', color: '#D89B3D' },
+  { day: 'Day 11', name: '塞哥維亞水道橋', note: '羅馬工程，AVE 30 分鐘可達', lat: 40.9480584, lng: -4.1178956, region: 'mad-trip', color: '#1E5A8E' },
+  { day: 'Day 12', name: '索菲亞王后藝術中心', note: '畢卡索《格爾尼卡》；週二公休', lat: 40.4079123, lng: -3.6945569, region: 'mad', color: '#D89B3D' },
+  { day: 'Day 12', name: "A'Barra ★ 米其林一星", note: '晚餐，圍繞吧台體驗', lat: 40.438792, lng: -3.687797, region: 'mad', color: '#B8860B', star: true },
+
+  // 阿姆斯特丹
+  { day: 'Day 13–14', name: 'Sheraton Amsterdam Airport', note: '直通航廈，免去清晨拖行李', lat: 52.3089468, lng: 4.7599765, region: 'ams', color: '#4A5D32' },
+  { day: 'Day 14', name: '梵谷美術館', note: '09:00 首場，需提前線上預訂', lat: 52.3580757, lng: 4.8812053, region: 'ams', color: '#4A5D32' },
+];
+
+// Region bounds & defaults
+const regionBounds = {
+  all: { center: [42.5, -1.0], zoom: 5 },
+  bcn: { center: [41.42, 2.16], zoom: 12 },
+  mad: { center: [40.42, -3.70], zoom: 12 },
+  ams: { center: [52.34, 4.82], zoom: 11 },
+};
+
+// Initialize map
+const map = L.map('trip-map', {
+  center: regionBounds.all.center,
+  zoom: regionBounds.all.zoom,
+  scrollWheelZoom: false,
+  zoomControl: true,
+});
+
+// Use CartoDB Positron for clean, editorial look
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19,
+}).addTo(map);
+
+// Custom marker factory
+function createMarker(loc) {
+  const label = loc.star ? '★' : loc.day.replace('Day ', '').split('–')[0];
+  const html = `
+    <div class="custom-marker-pin" style="background: ${loc.color};">
+      <span>${label}</span>
+    </div>
+  `;
+  const icon = L.divIcon({
+    className: 'custom-marker',
+    html: html,
+    iconSize: [28, 28],
+    iconAnchor: [14, 28],
+    popupAnchor: [0, -28],
+  });
+  const marker = L.marker([loc.lat, loc.lng], { icon: icon });
+  const popupContent = `
+    <div class="popup-day">${loc.day}</div>
+    <div class="popup-title">${loc.name}</div>
+    <div class="popup-note">${loc.note}</div>
+  `;
+  marker.bindPopup(popupContent);
+  marker._region = loc.region;
+  return marker;
+}
+
+// Add all markers
+const allMarkers = locations.map(createMarker);
+allMarkers.forEach(m => m.addTo(map));
+
+// Tab switching
+document.querySelectorAll('.map-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.map-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    const region = tab.dataset.region;
+    const target = regionBounds[region];
+
+    // Filter markers
+    allMarkers.forEach(marker => {
+      const r = marker._region;
+      let show = false;
+      if (region === 'all') show = true;
+      else if (region === 'bcn' && (r === 'bcn' || r === 'bcn-trip')) show = true;
+      else if (region === 'mad' && (r === 'mad' || r === 'mad-trip')) show = true;
+      else if (region === 'ams' && r === 'ams') show = true;
+
+      if (show) {
+        if (!map.hasLayer(marker)) marker.addTo(map);
+      } else {
+        if (map.hasLayer(marker)) map.removeLayer(marker);
+      }
+    });
+
+    // Pan to region
+    map.flyTo(target.center, target.zoom, { duration: 0.8 });
+  });
+});
+
+// Enable scroll-wheel zoom only after click (better UX for embedded map)
+map.on('click', () => map.scrollWheelZoom.enable());
+map.on('mouseout', () => map.scrollWheelZoom.disable());
+</script>
+
+</body>
+</html>
