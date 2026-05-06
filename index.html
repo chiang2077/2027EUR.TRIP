@@ -2,8 +2,21 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#C44518">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="España 2026">
+<meta name="description" content="西班牙 16 天雙人行程 · 巴塞隆納、馬德里、阿姆斯特丹轉機">
 <title>España · 西班牙 16 天雙人行程</title>
+
+<!-- PWA Manifest (inline as data URI for single-file deployment) -->
+<link rel="manifest" href='data:application/manifest+json,{"name":"España 16-Day Itinerary","short_name":"España 2026","description":"西班牙 16 天雙人行程","start_url":"./","display":"standalone","background_color":"%23FAF4E8","theme_color":"%23C44518","orientation":"portrait","icons":[{"src":"data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Crect width=%22192%22 height=%22192%22 rx=%2240%22 fill=%22%23C44518%22/%3E%3Ctext x=%2296%22 y=%22125%22 font-family=%22Georgia,serif%22 font-style=%22italic%22 font-weight=%22600%22 font-size=%22100%22 fill=%22%23FAF4E8%22 text-anchor=%22middle%22%3EE%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any maskable"}]}'>
+
+<!-- Apple touch icon (SVG, dataURI) -->
+<link rel="apple-touch-icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="%23C44518"/><text x="96" y="125" font-family="Georgia,serif" font-style="italic" font-weight="600" font-size="100" fill="%23FAF4E8" text-anchor="middle">E</text></svg>'>
+<link rel="icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="%23C44518"/><text x="96" y="125" font-family="Georgia,serif" font-style="italic" font-weight="600" font-size="100" fill="%23FAF4E8" text-anchor="middle">E</text></svg>'>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+TC:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -188,6 +201,82 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* Install banner */
+.install-banner {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 200;
+  background: var(--ink);
+  color: var(--cream);
+  padding: 14px 18px;
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+  display: none;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.install-banner.visible { display: flex; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.install-banner-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--terracotta);
+  color: white;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.install-banner-text { flex: 1; line-height: 1.4; }
+.install-banner-text strong {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ochre);
+  display: block;
+}
+.install-banner-text span { color: rgba(245, 235, 220, 0.75); font-size: 12px; }
+
+.install-banner button {
+  background: var(--ochre);
+  color: var(--ink);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.install-banner-close {
+  background: transparent !important;
+  color: rgba(245, 235, 220, 0.6) !important;
+  font-size: 18px !important;
+  padding: 4px 8px !important;
 }
 
 .nav-logo {
@@ -719,6 +808,35 @@ section {
   font-style: italic;
 }
 
+.gmap-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  padding: 4px 10px;
+  background: var(--cream);
+  color: var(--terracotta);
+  border: 1px solid var(--cream-deep);
+  border-radius: 3px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.gmap-link:hover {
+  background: var(--terracotta);
+  color: white;
+  border-color: var(--terracotta);
+}
+
+.gmap-link::before {
+  content: '◉';
+  font-size: 10px;
+}
+
 @media (max-width: 720px) {
   .day-card { grid-template-columns: 1fr; gap: 16px; padding: 28px 24px; }
   .day-num-big { font-size: 56px; }
@@ -1219,6 +1337,17 @@ footer .gracias {
   </div>
 </nav>
 
+<!-- PWA Install Banner -->
+<div class="install-banner" id="installBanner">
+  <div class="install-banner-icon">E</div>
+  <div class="install-banner-text">
+    <strong>加到主畫面</strong>
+    <span id="installInstruction">點擊安裝，離線也能查閱行程</span>
+  </div>
+  <button id="installBtn">安裝</button>
+  <button class="install-banner-close" id="installClose" aria-label="關閉">×</button>
+</div>
+
 <section class="hero">
   <div class="hero-content">
     <div class="hero-tag fade-in">A 16-day journey · 2026</div>
@@ -1381,11 +1510,15 @@ footer .gracias {
           </div>
           <div class="schedule-item">
             <div class="schedule-time">12:30</div>
-            <div class="schedule-detail">抵達巴塞隆納，<strong>H10 Casa Mimosa</strong> 或同級 4 星精品飯店 check-in</div>
+            <div class="schedule-detail">抵達巴塞隆納，<strong>H10 Casa Mimosa</strong> 或同級 4 星精品飯店 check-in
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=H10%20Casa%20Mimosa%20Barcelona" target="_blank" rel="noopener">Google Maps</a>
+            </div>
           </div>
           <div class="schedule-item">
             <div class="schedule-time">傍晚</div>
-            <div class="schedule-detail">格拉西亞大道散步，晚餐於 <strong>Cervecería Catalana</strong> 享用 Tapas</div>
+            <div class="schedule-detail">格拉西亞大道散步，晚餐於 <strong>Cervecería Catalana</strong> 享用 Tapas
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Cerveceria%20Catalana%20Barcelona" target="_blank" rel="noopener">Google Maps</a>
+            </div>
           </div>
         </div>
       </div>
@@ -1405,6 +1538,8 @@ footer .gracias {
             <div class="schedule-detail">
               <strong>聖家堂</strong>入場（含登塔、語音導覽）
               <span class="schedule-note">建議提前 1 個月線上預訂以避免售完</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Sagrada%20Familia%20Barcelona" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
           <div class="schedule-item">
@@ -1412,6 +1547,8 @@ footer .gracias {
             <div class="schedule-detail">
               <strong>聖十字聖保羅醫院</strong>，加泰隆尼亞現代主義建築群
               <span class="schedule-note">距聖家堂步行約 800 公尺</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Hospital%20de%20Sant%20Pau%20Barcelona" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
         </div>
@@ -1431,6 +1568,8 @@ footer .gracias {
             <div class="schedule-time">上午</div>
             <div class="schedule-detail">
               <strong>巴特由之家</strong>，建議購 Gold Tour 進入完整空間
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Casa%20Batllo%20Barcelona" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
           <div class="schedule-item">
@@ -1439,7 +1578,9 @@ footer .gracias {
           </div>
           <div class="schedule-item">
             <div class="schedule-time">晚餐</div>
-            <div class="schedule-detail"><strong>Els 4 Gats 四隻貓</strong>，畢卡索常客的百年咖啡館</div>
+            <div class="schedule-detail"><strong>Els 4 Gats 四隻貓</strong>，畢卡索常客的百年咖啡館
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Els%204%20Gats%20Barcelona" target="_blank" rel="noopener">Google Maps</a>
+            </div>
           </div>
         </div>
       </div>
@@ -1459,6 +1600,8 @@ footer .gracias {
             <div class="schedule-detail">
               <strong>奎爾公園</strong>首場入場
               <span class="schedule-note">避開人潮與午後高溫</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Park%20Guell%20Barcelona" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
           <div class="schedule-item">
@@ -1466,11 +1609,15 @@ footer .gracias {
             <div class="schedule-detail">
               <strong>Caelis ★</strong> 米其林一星午餐
               <span class="schedule-note">Earth and Sea 套餐 €125 / 人，建議搭配酒水 €85；週日週一公休</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Caelis%20Barcelona" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
           <div class="schedule-item">
             <div class="schedule-time">下午</div>
-            <div class="schedule-detail"><strong>加泰隆尼亞音樂宮</strong>，世界遺產彩繪玻璃音樂廳</div>
+            <div class="schedule-detail"><strong>加泰隆尼亞音樂宮</strong>，世界遺產彩繪玻璃音樂廳
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Palau%20de%20la%20Musica%20Catalana%20Barcelona" target="_blank" rel="noopener">Google Maps</a>
+            </div>
           </div>
         </div>
       </div>
@@ -1487,7 +1634,9 @@ footer .gracias {
         <div class="day-schedule">
           <div class="schedule-item">
             <div class="schedule-time">全日</div>
-            <div class="schedule-detail">格拉西亞大道精品街、<strong>El Corte Inglés 英國宮百貨</strong></div>
+            <div class="schedule-detail">格拉西亞大道精品街、<strong>El Corte Inglés 英國宮百貨</strong>
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=El%20Corte%20Ingles%20Plaza%20Catalunya%20Barcelona" target="_blank" rel="noopener">Google Maps</a>
+            </div>
           </div>
         </div>
       </div>
@@ -1507,6 +1656,8 @@ footer .gracias {
             <div class="schedule-detail">
               AVE 高鐵至 Figueres（55 分鐘），<strong>達利劇場博物館</strong>
               <span class="schedule-note">達利親自設計建築與展件配置；週一公休務必避開</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Dali%20Theatre%20Museum%20Figueres" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
           <div class="schedule-item">
@@ -1531,6 +1682,8 @@ footer .gracias {
             <div class="schedule-detail">
               FGC 火車前往蒙特塞拉特山，<strong>本篤會修道院</strong>與黑面聖母像
               <span class="schedule-note">建議搭組合票（火車＋纜車）；13:00 男童合唱團短演出值得停留</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Montserrat%20Monastery" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
         </div>
@@ -1552,7 +1705,9 @@ footer .gracias {
           </div>
           <div class="schedule-item">
             <div class="schedule-time">14:30</div>
-            <div class="schedule-detail">抵達馬德里 Atocha，入住 <strong>Hotel Wellington</strong> 或 Salamanca 區同級飯店</div>
+            <div class="schedule-detail">抵達馬德里 Atocha，入住 <strong>Hotel Wellington</strong> 或 Salamanca 區同級飯店
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Hotel%20Wellington%20Madrid" target="_blank" rel="noopener">Google Maps</a>
+            </div>
           </div>
           <div class="schedule-item">
             <div class="schedule-time">傍晚</div>
@@ -1563,6 +1718,8 @@ footer .gracias {
             <div class="schedule-detail">
               <strong>Sobrino de Botín</strong> 烤乳豬
               <span class="schedule-note">金氏世界紀錄認證最古老餐廳（1725 年），建議提前預訂或開門前 20 分鐘現場排候補</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Sobrino%20de%20Botin%20Madrid" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
         </div>
@@ -1583,6 +1740,8 @@ footer .gracias {
             <div class="schedule-detail">
               <strong>普拉多博物館</strong>，委拉斯奎茲、哥雅、波希為必看重點
               <span class="schedule-note">成人票 €15；週日 17:00 後免費入場（人潮較多）</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Museo%20del%20Prado%20Madrid" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
           <div class="schedule-item">
@@ -1607,6 +1766,8 @@ footer .gracias {
             <div class="schedule-detail">
               <strong>馬德里皇宮</strong>，西歐最大皇宮（3000+ 房間）
               <span class="schedule-note">建議線上購票避免長隊</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Palacio%20Real%20Madrid" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
           <div class="schedule-item">
@@ -1635,11 +1796,15 @@ footer .gracias {
             <div class="schedule-detail">
               AVE 高鐵 30 分鐘抵達，<strong>羅馬水道橋</strong>
               <span class="schedule-note">西元 1 世紀工程，無泥灰僅靠石塊精準切割支撐 2000 年</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Acueducto%20de%20Segovia" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
           <div class="schedule-item">
             <div class="schedule-time">下午</div>
-            <div class="schedule-detail"><strong>塞哥維亞城堡（白雪公主城堡原型）</strong></div>
+            <div class="schedule-detail"><strong>塞哥維亞城堡（白雪公主城堡原型）</strong>
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Alcazar%20de%20Segovia" target="_blank" rel="noopener">Google Maps</a>
+            </div>
           </div>
         </div>
       </div>
@@ -1659,6 +1824,8 @@ footer .gracias {
             <div class="schedule-detail">
               <strong>索菲亞王后藝術中心</strong>，畢卡索《格爾尼卡》
               <span class="schedule-note">週二公休故安排於週三</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Museo%20Reina%20Sofia%20Madrid" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
           <div class="schedule-item">
@@ -1670,6 +1837,8 @@ footer .gracias {
             <div class="schedule-detail">
               <strong>A'Barra ★</strong> 米其林一星
               <span class="schedule-note">圍繞吧台體驗為招牌；伊比利豬威靈頓為招牌菜；週日週一公休</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=A%27Barra%20Madrid" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
         </div>
@@ -1694,6 +1863,8 @@ footer .gracias {
             <div class="schedule-detail">
               抵達阿姆斯特丹，直接於航廈辦理 <strong>Sheraton Amsterdam Airport</strong> 入住
               <span class="schedule-note">飯店直通航廈與機場火車站</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Sheraton%20Amsterdam%20Airport%20Hotel" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
           <div class="schedule-item">
@@ -1722,6 +1893,8 @@ footer .gracias {
             <div class="schedule-detail">
               <strong>梵谷美術館</strong>首場入場
               <span class="schedule-note">需提前線上預訂；建議加購 €3.75 語音導覽；《星夜》不在此館</span>
+            
+              <a class="gmap-link" href="https://www.google.com/maps/search/?api=1&query=Van%20Gogh%20Museum%20Amsterdam" target="_blank" rel="noopener">Google Maps</a>
             </div>
           </div>
           <div class="schedule-item">
@@ -2087,6 +2260,67 @@ if (navToggle && navLinks) {
     link.addEventListener('click', () => {
       navLinks.classList.remove('is-open');
       navToggle.textContent = 'Menu';
+    });
+  });
+}
+
+// === PWA Install ===
+const installBanner = document.getElementById('installBanner');
+const installBtn = document.getElementById('installBtn');
+const installClose = document.getElementById('installClose');
+const installInstruction = document.getElementById('installInstruction');
+
+let deferredPrompt = null;
+
+// Detect iOS Safari (which doesn't fire beforeinstallprompt)
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+// Don't show if already installed or user dismissed before
+const dismissed = localStorage.getItem('installBannerDismissed') === '1';
+
+// Show iOS manual instruction
+if (isIOS && !isStandalone && !dismissed) {
+  installInstruction.textContent = '點擊 Safari 分享 → 加入主畫面';
+  installBtn.style.display = 'none';
+  setTimeout(() => installBanner.classList.add('visible'), 2000);
+}
+
+// Android / Desktop Chrome auto-prompt
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (!dismissed && !isStandalone) {
+    setTimeout(() => installBanner.classList.add('visible'), 2000);
+  }
+});
+
+if (installBtn) {
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    installBanner.classList.remove('visible');
+    if (outcome === 'accepted') {
+      localStorage.setItem('installBannerDismissed', '1');
+    }
+  });
+}
+
+if (installClose) {
+  installClose.addEventListener('click', () => {
+    installBanner.classList.remove('visible');
+    localStorage.setItem('installBannerDismissed', '1');
+  });
+}
+
+// === Service Worker for offline cache ===
+// Register sw.js if served via HTTP(S). Won't activate from file://.
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch((err) => {
+      console.log('SW registration failed:', err);
     });
   });
 }
